@@ -1,20 +1,41 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
+from flask_session import Session
 
 app = Flask(__name__)
 
-# In-memory storage for demonstration purposes
+app.secret_key = 'mySecretKey123'
+
+app.config["SESSION_PERMANENT"] = False
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
 data_store = []
 
 
-# GET method to retrieve all data
+@app.route('/login', methods=['POST'])
+def login():
+    user_data = request.json
+    session['user'] = user_data['username']
+    return jsonify({"message": "Logged in"}), 200
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user', None)
+    return jsonify({"message": "Logged out"}), 200
+
+
 @app.route('/data', methods=['GET'])
 def get_data():
+    if 'user' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
     return jsonify(data_store)
 
 
-# POST method to add new data
 @app.route('/data', methods=['POST'])
 def add_data():
+    if 'user' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
     new_data = request.json
     data_store.append(new_data)
     return jsonify(new_data), 201
