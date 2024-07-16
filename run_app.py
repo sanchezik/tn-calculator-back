@@ -25,15 +25,15 @@ def logout():
     return jsonify({"message": "Logged out"}), 200
 
 
-@app.route('/data', methods=['GET'])
-def get_data():
-    if 'user' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-    return jsonify(data_store)
+# @app.route('/data', methods=['GET'])
+# def get_data():
+#     if 'user' not in session:
+#         return jsonify({"error": "Unauthorized"}), 401
+#     return jsonify(data_store)
 
 
-@app.route('/data', methods=['POST'])
-def add_data():
+@app.route('/do-math', methods=['POST'])
+def do_math():
     if 'user' not in session:
         return jsonify({"error": "Unauthorized"}), 401
     new_data = request.json
