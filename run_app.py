@@ -36,12 +36,12 @@ def logout():
 
 @app.route('/do-math', methods=['POST'])
 def do_math():
-    if 'user' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
-    new_data = request.json
-    res = math_controller.do_math(new_data)
+    # if 'user' not in session:
+    #     return jsonify({"error": "Unauthorized"}), 401
+    form = dict(request.form)
+    res = math_controller.do_math(form)
     return jsonify(res), 409 if res["errors"] else jsonify(res), 200
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
