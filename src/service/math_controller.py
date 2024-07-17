@@ -24,27 +24,29 @@ def do_math(form, cur_user):
         result["errors"] = ERR_MISSING_PARAMS
         return result
 
+    param1 = None
+    param2 = None
+    try:
+        if form.get("param1"):
+            param1 = int(form.get("param1"))
+        if form.get("param2"):
+            param2 = int(form.get("param2"))
+    except ValueError:
+        result["errors"] = ERR_INVALID_DATA
+        return result
+
     if operation["type"] == OPR_ADD:
-        param1 = int(form.get("param1"))
-        param2 = int(form.get("param2"))
         result["result"] = param1 + param2
     elif operation["type"] == OPR_SBTR:
-        param1 = int(form.get("param1"))
-        param2 = int(form.get("param2"))
         result["result"] = param1 - param2
     elif operation["type"] == OPR_MLTP:
-        param1 = int(form.get("param1"))
-        param2 = int(form.get("param2"))
         result["result"] = param1 * param2
     elif operation["type"] == OPR_DIV:
-        param1 = int(form.get("param1"))
-        param2 = int(form.get("param2"))
         try:
             result["result"] = param1 / param2
         except ZeroDivisionError as error:
             result["errors"] = str(error)
     elif operation["type"] == OPR_SQR:
-        param1 = int(form.get("param1"))
         result["result"] = param1 * param1
     elif operation["type"] == OPR_RND:
         random_str = random_org.generate_string()
