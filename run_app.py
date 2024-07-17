@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, session
 from flask_session import Session
 
+from src.service import math_controller
+
 app = Flask(__name__)
 
 app.secret_key = 'mySecretKey123'
@@ -37,8 +39,8 @@ def do_math():
     if 'user' not in session:
         return jsonify({"error": "Unauthorized"}), 401
     new_data = request.json
-    data_store.append(new_data)
-    return jsonify(new_data), 201
+    res = math_controller.do_math(new_data)
+    return jsonify(res), 409 if res["errors"] else jsonify(res), 200
 
 
 if __name__ == '__main__':
