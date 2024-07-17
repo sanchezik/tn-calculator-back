@@ -2,10 +2,11 @@ from flask import Flask, request, jsonify, session
 from flask_session import Session
 
 from src.service import math_controller
+from src.util import config
 
 app = Flask(__name__)
 
-app.secret_key = 'mySecretKey123'
+app.secret_key = config.APP_SESSION_SECRET
 
 app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -39,8 +40,11 @@ def do_math():
     # if 'user' not in session:
     #     return jsonify({"error": "Unauthorized"}), 401
     form = dict(request.form)
-    res = math_controller.do_math(form)
-    return jsonify(res), 409 if res["errors"] else jsonify(res), 200
+    res = math_controller.do_math(form, None)
+    if res["errors"]:
+        return jsonify(res), 409
+    else:
+        return jsonify(res), 200
 
 
 if __name__ == '__main__':

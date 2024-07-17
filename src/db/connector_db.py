@@ -6,12 +6,12 @@ from src.util.config import *
 
 
 def execute_statement(statement, action):
+    connection = None
     try:
         connection = psycopg2.connect(user=DB_USER,
                                       password=DB_PASSWORD,
                                       host=DB_HOST,
-                                      port=DB_PORT,
-                                      database=DB_NAME)
+                                      port=DB_PORT)
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(statement)
 

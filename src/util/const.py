@@ -14,3 +14,4 @@ OPR_RND = 'random_string'
 
 ERR_MISSING_PARAMS = "Malformed request - missing parameters"
 ERR_OP_TYPE = "Invalid operation type"
+ERR_REQ_RAND = "Error while requesting third-party services. Sorry for inconvenience"
