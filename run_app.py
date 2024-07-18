@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, request, jsonify, session
 from flask_session import Session
 
@@ -23,6 +25,8 @@ def login():
         return jsonify(res), 404
     else:
         session['user'] = res["user"]
+        session['limit'] = 20
+        session['limit_renewal'] = time.time() + 60
         return jsonify(res), 200
 
 
@@ -37,7 +41,7 @@ def do_math():
     if 'user' not in session:
         return jsonify({"error": "Unauthorized"}), 401
     form = dict(request.form)
-    res = math_controller.do_math(form, None)
+    res = math_controller.do_math(form, session)
     if res["errors"]:
         return jsonify(res), 409
     else:

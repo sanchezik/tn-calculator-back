@@ -1,14 +1,17 @@
+import time
+
 from src.api import random_org
 from src.db import dao_operations
 from src.util.const import *
 
 
-def do_math(form, cur_user):
+def do_math(form, session):
     result = {
         "errors": None,
         "result": None
     }
 
+    # validations
     if not form.get("operation"):
         result["errors"] = ERR_MISSING_PARAMS
         return result
@@ -17,7 +20,12 @@ def do_math(form, cur_user):
         result["errors"] = ERR_OP_TYPE
         return result
 
-    # todo validate user's balance
+    # check operation cost
+    if session['limit'] - operation["cost"] < 0 and time.time() < session['limit_renewal']:
+        result["errors"] = ERR_REQUESTS_LIMIT + str(int(session['limit_renewal'] - time.time())) + " sec"
+        return result
+
+    # validations
     if (operation["type"] in [OPR_ADD, OPR_SBTR, OPR_MLTP, OPR_DIV] and (
             not form.get("param1") or not form.get("param2"))) or (
             operation["type"] == OPR_SQR and not form.get("param1")):
@@ -58,6 +66,10 @@ def do_math(form, cur_user):
         result["errors"] = ERR_OP_TYPE
         return result
 
-    # todo change user's balance and save
+    # change user balance
+    if time.time() >= session['limit_renewal']:
+        session['limit'] = 20
+        session['limit_renewal'] = time.time() + 60
+    session['limit'] = session['limit'] - operation["cost"]
 
     return result
