@@ -2,6 +2,7 @@ import time
 
 from flask import Flask, request, jsonify, session
 from flask_session import Session
+from flask_cors import CORS
 
 from src.service import math_controller, service_user
 from src.util import config
@@ -13,6 +14,7 @@ app.secret_key = config.APP_SESSION_SECRET
 app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
+CORS(app)
 
 data_store = []
 
