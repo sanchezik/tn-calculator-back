@@ -18,7 +18,7 @@ data_store = []
 
 
 @app.route('/login', methods=['POST'])
-def login():
+def action_login():
     form = dict(request.form)
     res = service_user.login(form)
     if res["errors"]:
@@ -31,19 +31,31 @@ def login():
 
 
 @app.route('/logout', methods=['POST'])
-def logout():
+def action_logout():
     session.pop('user', None)
     return jsonify({"message": "Logged out"}), 200
 
 
 @app.route('/do-math', methods=['POST'])
-def do_math():
+def action_do_math():
     if 'user' not in session:
         return jsonify({"error": "Unauthorized"}), 401
     form = dict(request.form)
     res = math_controller.do_math(form, session)
     if res["errors"]:
         return jsonify(res), 409
+    else:
+        return jsonify(res), 200
+
+
+@app.route('/my-records', methods=['POST'])
+def action_my_records():
+    if 'user' not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+    form = dict(request.form)
+    res = service_user.get_records(form, session["user"]["id"])
+    if res["errors"]:
+        return jsonify(res), 400
     else:
         return jsonify(res), 200
 

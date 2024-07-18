@@ -1,7 +1,7 @@
 import time
 
 from src.api import random_org
-from src.db import dao_operations
+from src.db import dao_operation, dao_record
 from src.util.const import *
 
 
@@ -15,7 +15,7 @@ def do_math(form, session):
     if not form.get("operation"):
         result["errors"] = ERR_MISSING_PARAMS
         return result
-    operation = dao_operations.get_by_type(form.get("operation"))
+    operation = dao_operation.get_by_type(form.get("operation"))
     if operation is None:
         result["errors"] = ERR_OP_TYPE
         return result
@@ -71,5 +71,8 @@ def do_math(form, session):
         session['limit'] = 20
         session['limit_renewal'] = time.time() + 60
     session['limit'] = session['limit'] - operation["cost"]
+
+    dao_record.create(operation["id"], session["user"]["id"], operation["cost"], session['limit'],
+                      str(result["result"]))
 
     return result
