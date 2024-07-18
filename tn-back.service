@@ -1,0 +1,11 @@
+[Unit]
+Description=tn-back
+After=multi-user.target
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/tn-calculator-back/run_app.py
+WorkingDirectory=/opt/tn-calculator-back/
+RestartSec=61
+Restart=always
+[Install]
+WantedBy=multi-user.target
