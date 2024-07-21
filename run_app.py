@@ -32,6 +32,7 @@ def action_login():
         session['limit'] = 20
         session['limit_renewal'] = time.time() + 60
         response = make_response(jsonify(res))
+        response.headers.add('Access-Control-Allow-Origin', '*')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.status_code = 200
         return response
