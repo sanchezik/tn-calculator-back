@@ -1,6 +1,6 @@
 import time
 
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, session, make_response
 from flask_session import Session
 from flask_cors import CORS
 
@@ -30,7 +30,11 @@ def action_login():
         session['user'] = res["user"]
         session['limit'] = 20
         session['limit_renewal'] = time.time() + 60
-        return jsonify(res), 200
+        response = make_response(jsonify(res))
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.status_code = 200
+        return response
+        # return jsonify(res), 200
 
 
 @app.route('/logout', methods=['POST'])
