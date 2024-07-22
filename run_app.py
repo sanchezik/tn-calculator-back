@@ -11,9 +11,10 @@ app = Flask(__name__)
 
 app.secret_key = config.APP_SESSION_SECRET
 
+app.config["SESSION_PERMANENT"] = False
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SECURE'] = False
 Session(app)
 CORS(app)
 
@@ -69,4 +70,4 @@ def action_my_records():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', ssl_context=('cert.pem', 'key.pem'))
+    app.run(host='0.0.0.0')
