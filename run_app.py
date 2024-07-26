@@ -23,6 +23,8 @@ data_store = []
 
 @app.route('/login', methods=['POST'])
 def action_login():
+    print(request.json)
+    print(request.form)
     res = service_user.login(request.json)
     if res["errors"]:
         return jsonify(res), 404
@@ -46,7 +48,7 @@ def action_logout():
 @app.route('/do-math', methods=['POST'])
 def action_do_math():
     if 'user' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+        return jsonify({"errors": "Unauthorized"}), 401
     res = math_controller.do_math(request.json, session)
     if res["errors"]:
         return jsonify(res), 409
@@ -57,7 +59,7 @@ def action_do_math():
 @app.route('/my-records', methods=['POST'])
 def action_my_records():
     if 'user' not in session:
-        return jsonify({"error": "Unauthorized"}), 401
+        return jsonify({"errors": "Unauthorized"}), 401
     form = dict(request.form)
     res = service_user.get_records(form, session["user"]["id"])
     if res["errors"]:
