@@ -1,4 +1,4 @@
-from src.db import dao_user, dao_record
+from src.db import dao_user, dao_record, dao_operation
 from src.util.const import ERR_MISSING_PARAMS, ERR_USER_NOT_FOUND, ERR_WRONG_PSWD
 
 
@@ -35,6 +35,9 @@ def get_records(form, uid):
     page_size = int(form["page_size"]) if form.get("page_size") else 20
     offset = (int(form["page_num"]) - 1) * page_size if form.get("page_num") else 0
 
-    result["records"] = dao_record.get(uid, sorting_column, page_size, offset)
+    records = dao_record.get(uid, sorting_column, page_size, offset)
+    for r in records:
+        r["operation"] = dao_operation.get_by_id(r["operation_id"])
+    result["records"] = records
 
     return result

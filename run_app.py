@@ -16,15 +16,14 @@ app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = False
 Session(app)
-CORS(app)
+CORS(app, supports_credentials=True)
 
 data_store = []
 
 
 @app.route('/login', methods=['POST'])
 def action_login():
-    form = dict(request.form)
-    res = service_user.login(form)
+    res = service_user.login(request.json)
     if res["errors"]:
         return jsonify(res), 404
     else:
@@ -36,7 +35,6 @@ def action_login():
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.status_code = 200
         return response
-        # return jsonify(res), 200
 
 
 @app.route('/logout', methods=['POST'])
@@ -66,7 +64,12 @@ def action_my_records():
     if res["errors"]:
         return jsonify(res), 400
     else:
-        return jsonify(res), 200
+        # return jsonify(res), 200
+        response = make_response(jsonify(res))
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.status_code = 200
+        return response
 
 
 if __name__ == '__main__':
