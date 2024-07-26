@@ -31,7 +31,7 @@ def action_login():
         session['limit'] = 20
         session['limit_renewal'] = time.time() + 60
         response = make_response(jsonify(res))
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
+        response.headers.add('Access-Control-Allow-Origin', 'http://ec2-15-229-250-69.sa-east-1.compute.amazonaws.com:8080')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.status_code = 200
         return response
@@ -64,7 +64,7 @@ def action_my_records():
         return jsonify(res), 400
     else:
         response = make_response(jsonify(res))
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
+        response.headers.add('Access-Control-Allow-Origin', 'http://ec2-15-229-250-69.sa-east-1.compute.amazonaws.com:8080')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
         response.status_code = 200
         return response
