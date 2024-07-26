@@ -12,9 +12,7 @@ def login(form):
         result["errors"] = ERR_MISSING_PARAMS
         return result
 
-    print('debug: requesting from DB')
     user = dao_user.get_by_username(form["username"])
-    print('debug: received: ' + str(user))
 
     if user is None:
         result["errors"] = ERR_USER_NOT_FOUND

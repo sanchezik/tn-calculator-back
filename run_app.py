@@ -23,7 +23,6 @@ data_store = []
 
 @app.route('/login', methods=['POST'])
 def action_login():
-    print(request.json)
     res = service_user.login(request.json)
     if res["errors"]:
         return jsonify(res), 404
