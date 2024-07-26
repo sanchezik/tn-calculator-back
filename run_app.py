@@ -47,8 +47,7 @@ def action_logout():
 def action_do_math():
     if 'user' not in session:
         return jsonify({"error": "Unauthorized"}), 401
-    form = dict(request.form)
-    res = math_controller.do_math(form, session)
+    res = math_controller.do_math(request.json, session)
     if res["errors"]:
         return jsonify(res), 409
     else:
@@ -64,7 +63,6 @@ def action_my_records():
     if res["errors"]:
         return jsonify(res), 400
     else:
-        # return jsonify(res), 200
         response = make_response(jsonify(res))
         response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
