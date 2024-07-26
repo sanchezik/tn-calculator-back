@@ -31,6 +31,7 @@ def execute_statement(statement, action):
             return RESULT_ERROR
 
     except Exception as error:
+        print(error)
         return RESULT_ERROR
     finally:
         if connection:
