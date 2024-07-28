@@ -28,7 +28,11 @@ def login(form):
 def get_records(form, uid):
     result = {
         "errors": None,
-        "records": []
+        "records": [],
+        "pageNumber": None,
+        "pageSize": None,
+        "totalRecords": None,
+        "sortColumn": None
     }
 
     sorting_column = form["sort_col"] if form.get("sort_col") else "date"
@@ -39,5 +43,9 @@ def get_records(form, uid):
     for r in records:
         r["operation"] = dao_operation.get_by_id(r["operation_id"])
     result["records"] = records
+    result["pageNumber"] = int(form["page_num"]) if form.get("page_num") else 1
+    result["pageSize"] = page_size
+    result["totalRecords"] = dao_record.get_records_count(uid)['count']
+    result["sortColumn"] = sorting_column
 
     return result

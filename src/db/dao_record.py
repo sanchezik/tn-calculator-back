@@ -1,5 +1,5 @@
 from src.db import connector_db
-from src.util.const import DB_ACTION_INS_UPD_DEL, DB_ACTION_SELECT_MANY
+from src.util.const import DB_ACTION_INS_UPD_DEL, DB_ACTION_SELECT_MANY, DB_ACTION_SELECT_ONE
 
 
 def create(operation_id, user_id, amount, user_balance, operation_response):
@@ -12,3 +12,8 @@ def get(uid, sorting_column="date", page_size=20, offset=0):
     statement = ("SELECT * FROM public.record WHERE user_id = {} ORDER BY {} LIMIT {} OFFSET {};"
                  "").format(uid, sorting_column, page_size, offset)
     return connector_db.execute_statement(statement, DB_ACTION_SELECT_MANY)
+
+
+def get_records_count(uid):
+    statement = "SELECT COUNT(*) FROM public.record WHERE user_id = {};".format(uid)
+    return connector_db.execute_statement(statement, DB_ACTION_SELECT_ONE)

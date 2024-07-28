@@ -58,8 +58,7 @@ def action_do_math():
 def action_my_records():
     if 'user' not in session:
         return jsonify({"errors": "Unauthorized"}), 401
-    form = dict(request.form)
-    res = service_user.get_records(form, session["user"]["id"])
+    res = service_user.get_records(request.json, session["user"]["id"])
     if res["errors"]:
         return jsonify(res), 400
     else:
