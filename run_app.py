@@ -22,7 +22,7 @@ CORS(app, supports_credentials=True)
 data_store = []
 
 
-@app.route('api/' + API_VERSION + '/login', methods=['POST'])
+@app.route('/api/' + API_VERSION + '/login', methods=['POST'])
 def action_login():
     res = service_user.login(request.json)
     if res["errors"]:
@@ -38,13 +38,13 @@ def action_login():
         return response
 
 
-@app.route('api/' + API_VERSION + '/logout', methods=['POST'])
+@app.route('/api/' + API_VERSION + '/logout', methods=['POST'])
 def action_logout():
     session.pop('user', None)
     return jsonify({"message": "Logged out"}), 200
 
 
-@app.route('api/' + API_VERSION + '/do-math', methods=['POST'])
+@app.route('/api/' + API_VERSION + '/do-math', methods=['POST'])
 def action_do_math():
     if 'user' not in session:
         return jsonify({"errors": "Unauthorized"}), 401
@@ -55,7 +55,7 @@ def action_do_math():
         return jsonify(res), 200
 
 
-@app.route('api/' + API_VERSION + '/my-records', methods=['POST'])
+@app.route('/api/' + API_VERSION + '/my-records', methods=['POST'])
 def action_my_records():
     if 'user' not in session:
         return jsonify({"errors": "Unauthorized"}), 401
