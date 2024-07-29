@@ -8,3 +8,5 @@ RND_API_KEY = '31f2056b-123e-434d-b367-447bbdf1dffb'
 RND_URL = 'https://api.random.org/json-rpc/4/invoke'
 
 APP_SESSION_SECRET = 'mySecretKey123'
+
+API_VERSION = 'v1'
