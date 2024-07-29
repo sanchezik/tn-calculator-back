@@ -19,3 +19,5 @@ ERR_REQ_RAND = "Error while requesting third-party services. Sorry for inconveni
 ERR_USER_NOT_FOUND = "User not found"
 ERR_WRONG_PSWD = "Incorrect password"
 ERR_REQUESTS_LIMIT = "You are out of requests limit. Try again in "
+ERR_ACCESS_DENIED = "Access denied"
+ERR_RECORD_NOT_FOUND = "Record not found"

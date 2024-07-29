@@ -31,5 +31,6 @@ CREATE TABLE public."record" (
     amount int8 NOT NULL,
     user_balance int8 NOT NULL,
     operation_response TEXT NOT NULL,
+    deleted bool NULL DEFAULT FALSE,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

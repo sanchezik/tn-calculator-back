@@ -121,6 +121,30 @@ All endpoints are prefixed with the base URL:
     - `400 Bad Request`: In case of any undefined errors.
     - `401 Unauthorized`: In case of user not logged in.
 
+### 5. Remove history record
+
+**Endpoint:** `DELETE /my-records/{record_id}`
+
+**Description:** This endpoint removes specified historical record.
+
+**Request:**
+
+- **Headers:**
+    - `Content-Type`: `application/json`
+
+- **URL Parameters:**
+    - `record_id` (integer): Unique record identifier. (required)
+
+**Response:**
+
+- **200 OK**
+    - Record was soft-deleted.
+
+- **Error Responses:**
+    - `401 Unauthorized`: In case of user not logged in.
+    - `403 Forbidden`: If user tries to remove not his own record.
+    - `404 Not Found`: In case {record_id} parameter was not provided.
+
 # Run on your local machine
 
 have Python installed

@@ -70,5 +70,16 @@ def action_my_records():
         return response
 
 
+@app.route('/api/' + API_VERSION + '/my-records/<int:record_id>', methods=['DELETE'])
+def action_delete_record(record_id):
+    if 'user' not in session:
+        return jsonify({"errors": "Unauthorized"}), 401
+    res = service_user.delete_record(record_id, session["user"]["id"])
+    if res["errors"]:
+        return jsonify(res), 403
+    else:
+        return jsonify({}), 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

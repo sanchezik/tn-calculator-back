@@ -1,5 +1,6 @@
 from src.db import dao_user, dao_record, dao_operation
-from src.util.const import ERR_MISSING_PARAMS, ERR_USER_NOT_FOUND, ERR_WRONG_PSWD
+from src.util.const import ERR_MISSING_PARAMS, ERR_USER_NOT_FOUND, ERR_WRONG_PSWD, ERR_ACCESS_DENIED, \
+    ERR_RECORD_NOT_FOUND
 
 
 def login(form):
@@ -47,5 +48,22 @@ def get_records(form, uid):
     result["pageSize"] = page_size
     result["totalRecords"] = dao_record.get_records_count(uid)['count']
     result["sortColumn"] = sorting_column
+
+    return result
+
+
+def delete_record(record_id, uid):
+    result = {
+        "errors": None
+    }
+
+    record = dao_record.get_by_id(record_id)
+    if record is None:
+        result["errors"] = ERR_RECORD_NOT_FOUND
+        return result
+    if record["user_id"] != uid:
+        result["errors"] = ERR_ACCESS_DENIED
+        return result
+    dao_record.remove(record_id)
 
     return result
